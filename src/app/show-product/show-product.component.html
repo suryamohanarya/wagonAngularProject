@@ -1,0 +1,108 @@
+<main>
+  <div class="container" *ngIf = "finalData">
+    <div class="row mt-5 justify-content-center">
+    	<table>
+    			<tr>
+    				<th> Product Name </th>
+    				<th> Description </th>
+    				<th> Date & TIme </th>
+    				<th> Action </th>
+    			</tr>
+    			<tr *ngFor = "let obj of finalData">
+    				<td> {{ obj.productName}} </td>
+    				<td> {{ obj.description}} </td>
+    				<td> {{ obj.createdAt }}</td>
+    				<td> 
+    					<button class="button button1" (click) = "update(obj._id)" data-toggle="modal" data-target="#exampleModal">Update</button>
+						<button class="button button2" (click) = "delete(obj._id)" data-toggle = "modal" data-target = "#deleteModal">Delete</button>
+    				</td>
+    			</tr>
+    	</table>
+    </div>
+  </div>  
+</main>
+
+<!-- Modal -->
+<form [formGroup]="updateForm">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Product Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      				<div class="p-2">
+			          	<label for="firstValue" class="form-label">Name</label>
+			          	<input type="text" class="form-control" formControlName="name" id="firstValue" value = "{{ singleData.productName }}">
+		          		<div class="error"></div>
+		        	</div>
+		        	<div class="p-2">
+		          		<label for="secondValue" class="form-label">Description</label>
+		          		<input type="text" class="form-control" formControlName="description" id="secondValue" value = "{{ singleData.description }}">
+		        	</div>
+		        	<div class="p-2" *ngIf = "updatedItem">
+        				<h3 class="pt-3 ml-2">Product updated successfully</h3>
+    				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click) = "finalSubmit(singleData._id)">Update Product</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+
+<!--Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Product Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      				<div class="p-2">
+			          	<h4>Are you sure you want to delete the product?.</h4>
+			          	<h5>Product Name: {{ singleDataDeleted.productName }} </h5>
+			          	<h5>Description: {{ singleDataDeleted.description }} </h5>
+		        	</div>
+		        	<div class="p-2" *ngIf = "deletedItem">
+        					<h3 class="pt-3 ml-2">Product deleted successfully.</h3>
+   					 </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" (click) = "finalSubmitDelete(singleDataDeleted._id)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #FF0000;} /* Blue */
+</style>
